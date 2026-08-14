@@ -26,7 +26,7 @@ while True:
 
     if not produto.strip():
         print("Busca vazia. Tente novamente.")
-        break
+        continue
 
     url_final = f"https://dummyjson.com/products/search?q={produto}"
 
