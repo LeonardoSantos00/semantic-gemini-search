@@ -17,37 +17,46 @@ if chave_secreta:
 else:
     print("ERRO")
 
+while True:
+    produto = input("\nQual produto deseja buscar? (ou digite 'sair' para encerrar): ")
 
-produto = "laptop"
-url_final = f"https://dummyjson.com/products/search?q={produto}"
+    if produto.lower().strip() == 'sair':
+        print("Encerrando o programa...")
+        break
 
-print(f"Buscando por: {produto}....")
+    if not produto.strip():
+        print("Busca vazia. Tente novamente.")
+        break
 
-resposta = requests.get(url_final)
+    url_final = f"https://dummyjson.com/products/search?q={produto}"
 
-if resposta.status_code == 200:
-    print("Sucesso! A API respondeu")
-    dados = resposta.json() #é um hashmap simplificado
+    print(f"Buscando por: {produto}....")
 
-    print("\n---RESULTADO DO GARIMPO---")
+    resposta = requests.get(url_final)
 
-    if "products" in dados and len(dados["products"]) > 0:
-        primeiro_item = dados["products"][0]
-        print(f"Produto encontrado: {primeiro_item['title']}")
-        print(f"Preço: ${primeiro_item['price']}")
-        print(f"Estoque: {primeiro_item['stock']} unidades")
+    if resposta.status_code == 200:
+        print("Sucesso! A API respondeu")
+        dados = resposta.json() #é um hashmap simplificado
 
-        prompt = f"Você é um assistente de vendas inteligente. Convença o cliente a comprar o produto {primeiro_item['title']} que custa ${primeiro_item['price']}. Seja persuaviso e diga que é uma ótima oportunidade."
-        client = genai.Client(api_key=chave_secreta)
+        print("\n---RESULTADO DO GARIMPO---")
 
-        resposta_ia = client.models.generate_content(
-            model='gemini-3.5-flash-lite',
-            contents=prompt
-        )
+        if "products" in dados and len(dados["products"]) > 0:
+            primeiro_item = dados["products"][0]
+            print(f"Produto encontrado: {primeiro_item['title']}")
+            print(f"Preço: ${primeiro_item['price']}")
+            print(f"Estoque: {primeiro_item['stock']} unidades")
 
-        print("\n---RESPOSTA DA IA ---")
-        print(resposta_ia.text)
+            prompt = f"Você é um assistente de vendas inteligente. Convença o cliente a comprar o produto {primeiro_item['title']} que custa ${primeiro_item['price']}. Seja persuaviso e diga que é uma ótima oportunidade."
+            client = genai.Client(api_key=chave_secreta)
+
+            resposta_ia = client.models.generate_content(
+                model='gemini-3.5-flash-lite',
+                contents=prompt
+            )
+
+            print("\n---RESPOSTA DA IA ---")
+            print(resposta_ia.text)
+        else:
+            print("Nenhum produto encontrado com esse nome")
     else:
-        print("Nenhum produto encontrado com esse nome")
-else:
-    print(f"Erro na busca. Código HTTP:{resposta.status_code}")
+        print(f"Erro na busca. Código HTTP:{resposta.status_code}")
