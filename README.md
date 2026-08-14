@@ -1,2 +1,2 @@
-# mercado-livre-gemini-search
-Assistente de compras inteligente integrando a API pública do Mercado Livre com a IA do Google Gemini 
+# semantic-gemini-search
+Assistente inteligente de buscas semânticas em linguagem natural, integrando o consumo de APIs públicas dinâmicas com a IA do Google Gemini
