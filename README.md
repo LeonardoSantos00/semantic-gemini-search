@@ -1,3 +1,9 @@
+
+# semantic-gemini-search
+Assistente inteligente de buscas semânticas em linguagem natural, integrando o consumo de APIs públicas dinâmicas com a IA do Google Gemini
+
+---
+
 # Sobre o Projeto
 ---
 
@@ -19,3 +25,4 @@ Para a construção de uma base sólida deste projeto e compreensão das tecnolo
 
 *   **Documentação:**
     *   [MDN Web Docs: HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status) - Utilizado para entender as respostas de comunicação do servidor (protocolo HTTP).
+
