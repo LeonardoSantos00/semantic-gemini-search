@@ -38,15 +38,28 @@ while True:
         print("Sucesso! A API respondeu")
         dados = resposta.json() #é um hashmap simplificado
 
-        print("\n---RESULTADO DO GARIMPO---")
+        print("\n---RESULTADO DA BUSCA---")
 
         if "products" in dados and len(dados["products"]) > 0:
             primeiro_item = dados["products"][0]
-            print(f"Produto encontrado: {primeiro_item['title']}")
-            print(f"Preço: ${primeiro_item['price']}")
-            print(f"Estoque: {primeiro_item['stock']} unidades")
 
-            prompt = f"Você é um assistente de vendas inteligente. Convença o cliente a comprar o produto {primeiro_item['title']} que custa ${primeiro_item['price']}. Seja persuaviso e diga que é uma ótima oportunidade."
+            titulo = primeiro_item['title']
+            preco = primeiro_item['price']
+            estoque = primeiro_item['stock']
+            descricao = primeiro_item.get('description', 'Produto exclusivo e sem descrição detalhada.')
+            avaliacao = primeiro_item.get('rating', 'Ainda não avaliado.')
+            desconto = primeiro_item.get('discountPercentage', 0)
+
+            print(f"Produto encontrado: {titulo}")
+
+            if desconto > 0:
+                print(f"Preço: ${preco} (Desconto atual: {desconto}%)")
+            else:
+                print(f"Preço: ${preco}")
+            
+            print(f"Estoque: {estoque} unidades | Avaliação: {avaliacao} estrelas")
+
+            prompt = f"Você é um assistente de vendas persuasivo. Venda o produto '{titulo}'.Preço final: ${preco} (caso tenha, destaque que ele tem {desconto}% de desconto). Use a descrição técnica ({descricao} pra gerar interesse no usuário). Destaque que os cliente avaliaram com {avaliacao} estrelas (caso tenha avaliações e sejam boas) e crie um senso de urgência citando a quantidade do {estoque} em unidade  "
             client = genai.Client(api_key=chave_secreta)
 
             resposta_ia = client.models.generate_content(
