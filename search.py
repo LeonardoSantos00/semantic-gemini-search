@@ -38,15 +38,36 @@ while True:
         print("Sucesso! A API respondeu")
         dados = resposta.json() #é um hashmap simplificado
 
-        print("\n---RESULTADO DO GARIMPO---")
+        print("\n---RESULTADO DA BUSCA---")
 
         if "products" in dados and len(dados["products"]) > 0:
-            primeiro_item = dados["products"][0]
-            print(f"Produto encontrado: {primeiro_item['title']}")
-            print(f"Preço: ${primeiro_item['price']}")
-            print(f"Estoque: {primeiro_item['stock']} unidades")
+            item = dados["products"][0]
 
-            prompt = f"Você é um assistente de vendas inteligente. Convença o cliente a comprar o produto {primeiro_item['title']} que custa ${primeiro_item['price']}. Seja persuaviso e diga que é uma ótima oportunidade."
+            titulo = item['title']
+            preco = item['price']
+            estoque = item['stock']
+            descricao = item.get('description', 'Produto exclusivo e sem descrição detalhada.')
+            avaliacao = item.get('rating', 'Ainda não avaliado.')
+            desconto = item.get('discountPercentage', 0)
+
+            print(f"Produto encontrado: {titulo}")
+
+            if desconto > 0:
+                print(f"Preço: ${preco} (Desconto atual: {desconto}%)")
+            else:
+                print(f"Preço: ${preco}")
+            
+            print(f"Estoque: {estoque} unidades | Avaliação: {avaliacao} estrelas")
+
+            prompt = (
+                f"Você é um consultor de vendas honesto e objetivo, não precisa dizer que é, apenas aja como um consultor.Dê uma pequena saudação."
+                f" Apresente o produto '{titulo}' cujo preço final é ${preco}. Se o desconto ({desconto}%) for maior que zero, mencione-o "
+                f"como uma vantagem, mas NÃO tente calcular o preço original. "
+                f"Use a descrição ({descricao}) para explicar a utilidade do produto. "
+                f"Informe de maneira neutra que a avaliação média é de {avaliacao} estrelas e que "
+                f"temos {estoque} unidades disponíveis. Não crie falsos sensos de urgência e não invente dados"
+            )
+
             client = genai.Client(api_key=chave_secreta)
 
             resposta_ia = client.models.generate_content(
