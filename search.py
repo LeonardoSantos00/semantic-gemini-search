@@ -41,14 +41,14 @@ while True:
         print("\n---RESULTADO DA BUSCA---")
 
         if "products" in dados and len(dados["products"]) > 0:
-            primeiro_item = dados["products"][0]
+            item = dados["products"][0]
 
-            titulo = primeiro_item['title']
-            preco = primeiro_item['price']
-            estoque = primeiro_item['stock']
-            descricao = primeiro_item.get('description', 'Produto exclusivo e sem descrição detalhada.')
-            avaliacao = primeiro_item.get('rating', 'Ainda não avaliado.')
-            desconto = primeiro_item.get('discountPercentage', 0)
+            titulo = item['title']
+            preco = item['price']
+            estoque = item['stock']
+            descricao = item.get('description', 'Produto exclusivo e sem descrição detalhada.')
+            avaliacao = item.get('rating', 'Ainda não avaliado.')
+            desconto = item.get('discountPercentage', 0)
 
             print(f"Produto encontrado: {titulo}")
 
