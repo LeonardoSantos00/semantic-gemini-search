@@ -59,7 +59,15 @@ while True:
             
             print(f"Estoque: {estoque} unidades | Avaliação: {avaliacao} estrelas")
 
-            prompt = f"Você é um assistente de vendas persuasivo. Venda o produto '{titulo}'.Preço final: ${preco} (caso tenha, destaque que ele tem {desconto}% de desconto). Use a descrição técnica ({descricao} pra gerar interesse no usuário). Destaque que os cliente avaliaram com {avaliacao} estrelas (caso tenha avaliações e sejam boas) e crie um senso de urgência citando a quantidade do {estoque} em unidade  "
+            prompt = (
+                f"Você é um consultor de vendas honesto e objetivo, não precisa dizer que é, apenas aja como um consultor.Dê uma pequena saudação."
+                f" Apresente o produto '{titulo}' cujo preço final é ${preco}. Se o desconto ({desconto}%) for maior que zero, mencione-o "
+                f"como uma vantagem, mas NÃO tente calcular o preço original. "
+                f"Use a descrição ({descricao}) para explicar a utilidade do produto. "
+                f"Informe de maneira neutra que a avaliação média é de {avaliacao} estrelas e que "
+                f"temos {estoque} unidades disponíveis. Não crie falsos sensos de urgência e não invente dados"
+            )
+
             client = genai.Client(api_key=chave_secreta)
 
             resposta_ia = client.models.generate_content(
